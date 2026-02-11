@@ -1,0 +1,70 @@
+version: "3.9"
+
+services:
+  # Laravel PHP-FPM backend
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: katchachill_app
+    working_dir: /var/www
+    volumes:
+      - ./backend:/var/www
+    depends_on:
+      - mysql
+    networks:
+      - katchachill_network
+
+  # Nginx web server for Laravel
+  web:
+    image: nginx:alpine
+    container_name: katchachill_web
+    ports:
+      - "8000:80"  # Laravel app
+    volumes:
+      - ./backend:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - katchachill_network
+
+  # MySQL database
+  mysql:
+    image: mysql:8.0
+    container_name: katchachill_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: katchachill
+      MYSQL_USER: mike
+      MYSQL_PASSWORD: mike
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - katchachill_network
+
+  # phpMyAdmin for database management
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: katchachill_phpmyadmin
+    ports:
+      - "8080:80"  # phpMyAdmin GUI
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: mike
+      PMA_PASSWORD: mike
+    depends_on:
+      - mysql
+    networks:
+      - katchachill_network
+
+# Persistent MySQL volume
+volumes:
+  mysql_data:
+
+# Docker network for internal communication
+networks:
+  katchachill_network:
+    driver: bridge
