@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('college_id')
+                ->constrained('colleges')
+                ->cascadeOnDelete();                        // CAS, OR SHITS
+
             $table->string('course_code', 20)->unique();    // BSCS
             $table->string('course_name', 150);             // Bachelor of Science in Computer Science
-            $table->string('college', 100);                 // CAS
 
             // created at and updated at
             $table->timestamps();

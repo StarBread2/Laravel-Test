@@ -1,12 +1,17 @@
 Courses data
+    table name: colleges
+        id (bigint) primary key  
+        college_code (varchar 20) unique                {CAS}  
+        college_name (varchar 150)                      {College of Arts and Sciences}  
+        created_at (timestamp)  
+        updated_at (timestamp)  
     table name: courses
         id (bigint) primary key
-        course_code (varchar 20) unique     {BSCS}
-        course_name (varchar 150)           {Bachelor of Science in Computer Science}
-        college (varchar 100)               {CAS}
+        college_id (bigint) foreign key → colleges.id 
+        course_code (varchar 150)                      {BSCS}  
+        course_name (varchar 150)                      {Bachelor of Science in Computer Science}  
         created_at (timestamp)
         updated_at (timestamp)
-
 
 
 
@@ -98,3 +103,28 @@ Evaluation
             reexam_grade (decimal 5,2) nullable                                     {null}
             remarks (enum: 'passed','failed','incomplete','ongoing')                {passed}
             created_at (timestamp)
+
+
+Teachers
+    table name: teachers
+        id (bigint) primary key auto_increment
+        employee_number (varchar 30) unique
+        first_name (varchar 100)
+        middle_name (varchar 100) nullable
+        last_name (varchar 100)
+        suffix_name (varchar 50) nullable
+        email (varchar 150) unique
+        contact_number (varchar 20)
+        employment_status (enum: 'full-time','part-time','contractual')
+        college_id (bigint) foreign key -> colleges.id
+        created_at (timestamp)
+        updated_at (timestamp)
+    
+    table name: teacher_assignments
+        id (bigint) primary key auto_increment
+        teacher_id (bigint) foreign key -> teachers.id
+        section_id (bigint) foreign key -> subject_sections.id
+        role (enum: 'lecturer','lab','assistant','co-instructor')
+        assigned_at (timestamp)
+
+    
