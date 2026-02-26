@@ -24,10 +24,20 @@ return new class extends Migration
             $table->time('end_time');                                   // 10:00
 
             // ROOM
-            $table->string('room', 100);                                // CAS 104
+            $table->foreignId('room_id')
+                ->constrained('rooms')
+                ->restrictOnDelete();
             
             // Created at only
             $table->timestamp('created_at')->useCurrent();
+
+            // AVOID CONFLICT TIME
+            $table->unique([
+                'section_id',
+                'day_of_week',
+                'start_time',
+                'room_id'
+            ], 'subject_schedule_unique');
         });
     }
 

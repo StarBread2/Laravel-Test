@@ -48,6 +48,26 @@ For documentation (Subjects and enrolled students)
 
 
 
+Rooms
+    table name: buildings
+        id (bigint) primary key auto_increment
+        building_code (varchar 20) unique      {CAS}
+        building_name (varchar 150)            {CAS Building}
+        created_at (timestamp)
+        updated_at (timestamp)
+    table name: rooms
+        id (bigint) primary key auto_increment
+        building_id (bigint) foreign key → buildings.id
+        room_number (varchar 20)          {104}
+        room_type (enum: 'lecture','lab','auditorium','office') default 'lecture'
+        capacity (int)                    {40}
+        created_at (timestamp)
+        updated_at (timestamp)
+
+
+
+
+
 Subjects
     table name: subject_schedules
         id (bigint) primary key
@@ -55,7 +75,7 @@ Subjects
         day_of_week (enum: 'M','T','W','TH','F','S')                            {M,T,W}
         start_time (time)                                                       {09:00}
         end_time (time)                                                         {10:30}
-        room (varchar 100)                                                      {CAS 104}
+        room_id (bigint) room_id → rooms.id                                     {rooms}
         created_at (timestamp)
 
     table name: subject_sections
