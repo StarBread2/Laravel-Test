@@ -8,9 +8,9 @@
 
 <body class="bg-gray-100 p-6">
 
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         @yield('content')
     </div>
-
 </body>
+
 </html>
