@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             
-            $table->id(); //Much better if student number changes then no effect to other table
-            $table->bigInteger('student_number')->unique();
+            $table->id(); 
+            $table->bigInteger('student_number')->nullable()->unique()->index();
 
             // NAME
             $table->string('first_name', 100);
