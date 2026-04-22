@@ -3,8 +3,8 @@
 @section('content')
     <div>
         <!-- CREATE USER -->
-        <h1 class="text-2xl font-bold mb-4">Create Student</h1>
-        <div class="mb-20 w-full">
+        {{-- <h1 class="text-2xl font-bold mb-4">Create Student</h1> --}}
+        {{-- <div class="mb-20 w-full">
             <form id="studentForm" class="space-y-3">
 
                 @csrf
@@ -37,12 +37,70 @@
                     </button>
                 </div>
             </form>
+        </div> --}}
+
+        <h1 class="text-2xl font-bold mb-4">Create Animal</h1>
+
+        <div class="mb-20 w-full">
+            <form id="zooForm" class="space-y-3">
+                @csrf
+
+                <div class="grid grid-cols-1 gap-3">
+                    <input name="name" placeholder="Name" class="border p-2 rounded-lg">
+                    <input name="species" placeholder="Species" class="border p-2 rounded-lg">
+                    <input type="number" name="age" placeholder="Age" class="border p-2 rounded-lg">
+                    <input name="habitat" placeholder="Habitat" class="border p-2 rounded-lg">
+                </div>
+
+                <div class="flex justify-center mt-5">
+                    <button class="w-[40%] bg-blue-600 text-white py-2 rounded-lg">
+                        Create Animal
+                    </button>
+                </div>
+            </form>
         </div>
         
         <!-- READ TABLE -->
-        <h1 class="text-2xl font-bold mb-4">Students List</h1>
-        <div class="bg-white shadow rounded-lg overflow-hidden">
+        {{-- <h1 class="text-2xl font-bold mb-4">Students List</h1> --}}
+        <h1 class="text-2xl font-bold mb-4">Zoo List</h1>
+
             <table class="w-full text-sm text-left">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th class="p-3">Name</th>
+                        <th class="p-3">Species</th>
+                        <th class="p-3">Age</th>
+                        <th class="p-3">Habitat</th>
+                        <th class="p-3">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @forelse($zoos as $zoo)
+                        <tr data-id="{{ $zoo->id }}">
+                            <td class="p-3">{{ $zoo->name }}</td>
+                            <td class="p-3">{{ $zoo->species }}</td>
+                            <td class="p-3">{{ $zoo->age }}</td>
+                            <td class="p-3">{{ $zoo->habitat }}</td>
+
+                            <td class="p-3 flex gap-2">
+                                <button class="edit-btn bg-blue-500 text-white px-2 py-1 rounded"
+                                    data-id="{{ $zoo->id }}">Edit</button>
+
+                                <button class="delete-btn bg-red-500 text-white px-2 py-1 rounded">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center p-4">No data</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        {{-- <div class="bg-white shadow rounded-lg overflow-hidden"> --}}
+            {{-- <table class="w-full text-sm text-left">
                 <thead class="bg-gray-200">
                     <tr>
                         <th class="p-3">Student No</th>
@@ -118,11 +176,36 @@
                         </tr>
                     @endforelse
                 </tbody>
-            </table>
+            </table> --}}
         </div>
 
         <!-- EDIT MODAL -->
         <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
+            <div class="bg-white p-6 rounded w-[400px]">
+
+                <h2 class="text-xl font-bold mb-4">Edit Animal</h2>
+
+                <form id="editForm">
+                    <input type="hidden" id="edit_id">
+
+                    <input id="edit_name" class="border p-2 w-full mb-2" placeholder="Name">
+                    <input id="edit_species" class="border p-2 w-full mb-2" placeholder="Species">
+                    <input id="edit_age" type="number" class="border p-2 w-full mb-2" placeholder="Age">
+                    <input id="edit_habitat" class="border p-2 w-full mb-2" placeholder="Habitat">
+
+                    <div class="flex justify-end gap-2 mt-4">
+                        <button type="button" id="closeModal" class="bg-gray-400 px-3 py-1 text-white rounded">
+                            Cancel
+                        </button>
+
+                        <button class="bg-green-600 px-3 py-1 text-white rounded">
+                            Save
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {{-- <div id="editModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center">
             <div class="bg-white p-6 rounded w-[600px]">
 
                 <h2 class="text-xl font-bold mb-4">Edit Student</h2>
@@ -163,6 +246,6 @@
 
                 </form>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
