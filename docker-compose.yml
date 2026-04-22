@@ -6,19 +6,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: katchachill_app
+    container_name: Zoo_app
     working_dir: /var/www
     volumes:
       - ./backend:/var/www
     depends_on:
       - mysql
     networks:
-      - katchachill_network
+      - Zoo_network
 
   # Nginx web server for Laravel
   web:
     image: nginx:alpine
-    container_name: katchachill_web
+    container_name: Zoo_web
     ports:
       - "8000:80"  # Laravel app
     volumes:
@@ -27,15 +27,15 @@ services:
     depends_on:
       - app
     networks:
-      - katchachill_network
+      - Zoo_network
 
   # MySQL database
   mysql:
     image: mysql:8.0
-    container_name: katchachill_mysql
+    container_name: Zoo_mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: katchachill
+      MYSQL_DATABASE: Zoo
       MYSQL_USER: mike
       MYSQL_PASSWORD: mike
     ports:
@@ -43,12 +43,12 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
-      - katchachill_network
+      - Zoo_network
 
   # phpMyAdmin for database management
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: katchachill_phpmyadmin
+    container_name: Zoo_phpmyadmin
     ports:
       - "8080:80"  # phpMyAdmin GUI
     environment:
@@ -58,7 +58,7 @@ services:
     depends_on:
       - mysql
     networks:
-      - katchachill_network
+      - Zoo_network
 
 # Persistent MySQL volume
 volumes:
@@ -66,5 +66,5 @@ volumes:
 
 # Docker network for internal communication
 networks:
-  katchachill_network:
+  Zoo_network:
     driver: bridge
