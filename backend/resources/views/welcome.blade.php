@@ -112,7 +112,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="p-4 text-center text-gray-500">
+                            <td colspan="9" class="p-4 text-center text-gray-500">
                                 No students found
                             </td>
                         </tr>
